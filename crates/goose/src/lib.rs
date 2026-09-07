@@ -31,6 +31,7 @@ pub mod mcp_utils;
 pub mod model_config;
 pub mod model_gateway;
 pub mod oauth;
+pub mod official_document_agent;
 #[cfg(feature = "otel")]
 pub mod otel;
 pub mod permission;
