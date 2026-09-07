@@ -1,3 +1,8 @@
+# Yiruo 壹若
+
+**Ran for Xuan, Always One.**  
+为萱而燃，始终如一
+
 <div align="center">
 
 # goose
