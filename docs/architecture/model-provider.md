@@ -51,3 +51,24 @@ untrusted destination, even if it speaks an OpenAI-compatible protocol.
 MCP `sampling` requests must be converted into the same `ModelRequest` and
 cannot receive a provider object, key, or direct HTTP client. The MCP server
 identity, workspace, and data classification are part of the policy input.
+
+## Phase 2 implementation
+
+`crates/goose/src/model_gateway.rs` now provides `ModelGatewayProvider`, a
+Provider-compatible boundary that keeps the credential-bearing Goose provider
+behind a private field. The three `ProviderEntry` construction paths (normal,
+default-model, and working-directory providers) wrap their result before it is
+returned to the agent. This also covers declarative providers because they use
+the same registry entry path.
+
+The wrapper emits only provider name, model name, message count, and tool count
+to debug tracing. It never serializes system prompts, messages, tool schemas,
+request headers, or provider objects. Provider capability and session methods
+are delegated so existing Goose behavior remains intact while the agent sees
+only the Provider interface.
+
+This is an ingress boundary, not the final security decision. Phase 3 must add
+the policy decision before delegation; Phase 4 must add classification, DLP,
+PII detection, and redaction; Phase 9 must add budget reservation and
+settlement. Direct providers constructed inside unit-test fixtures are test
+dependencies and are not runtime registry outputs.

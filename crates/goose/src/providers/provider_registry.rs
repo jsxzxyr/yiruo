@@ -63,11 +63,17 @@ impl ProviderEntry {
         &self,
         extensions: Vec<ExtensionConfig>,
     ) -> Result<Arc<dyn Provider>> {
-        (self.constructor)(extensions, None, self.tls_config.clone(), true).await
+        let provider = (self.constructor)(extensions, None, self.tls_config.clone(), true).await?;
+        Ok(Arc::new(crate::model_gateway::ModelGatewayProvider::new(
+            provider,
+        )))
     }
 
     pub async fn create(&self, extensions: Vec<ExtensionConfig>) -> Result<Arc<dyn Provider>> {
-        (self.constructor)(extensions, None, self.tls_config.clone(), false).await
+        let provider = (self.constructor)(extensions, None, self.tls_config.clone(), false).await?;
+        Ok(Arc::new(crate::model_gateway::ModelGatewayProvider::new(
+            provider,
+        )))
     }
 
     pub async fn create_with_working_dir(
@@ -75,13 +81,16 @@ impl ProviderEntry {
         extensions: Vec<ExtensionConfig>,
         working_dir: PathBuf,
     ) -> Result<Arc<dyn Provider>> {
-        (self.constructor)(
+        let provider = (self.constructor)(
             extensions,
             Some(working_dir),
             self.tls_config.clone(),
             false,
         )
-        .await
+        .await?;
+        Ok(Arc::new(crate::model_gateway::ModelGatewayProvider::new(
+            provider,
+        )))
     }
 }
 
