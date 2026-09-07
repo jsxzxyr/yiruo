@@ -31,3 +31,13 @@ The confirmation dialog displays provider, model, destination, classification,
 file/content types, estimated tokens, estimated cost, retention setting, and
 the exact requested action. Approval is bound to a request hash and cannot be
 reused for a changed payload.
+
+## Phase 3 implementation
+
+The policy vocabulary and deterministic decisions live in
+`crates/goose/src/policy_engine.rs`; capability decisions live in
+`crates/goose/src/tool_router.rs`. Both services are side-effect free and
+return metadata-only decisions. Runtime adapters must call them before model
+delegation or tool execution. Wiring task classification, confirmation
+transport, and both Agent loop paths is required before this phase can be
+considered security-complete.

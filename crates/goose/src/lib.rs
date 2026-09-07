@@ -34,6 +34,7 @@ pub mod oauth;
 pub mod otel;
 pub mod permission;
 pub mod plugins;
+pub mod policy_engine;
 #[cfg(feature = "telemetry")]
 pub mod posthog;
 pub mod prompt_template;
@@ -54,5 +55,6 @@ pub mod token_counter;
 mod tool_call_labels;
 pub mod tool_inspection;
 pub mod tool_monitor;
+pub mod tool_router;
 pub mod tracing;
 pub mod utils;
