@@ -1,0 +1,92 @@
+name: Release Yiruo Windows
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+env:
+  GITHUB_OWNER: jsxzxyr
+  GITHUB_REPO: yiruo
+  GOOSE_BUNDLE_NAME: Yiruo
+
+jobs:
+  release:
+    name: Build and release Yiruo for Windows
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.10.0
+
+      - name: Set up Rust
+        shell: pwsh
+        run: rustup target add x86_64-pc-windows-msvc
+
+      - name: Install pnpm
+        shell: pwsh
+        run: npm install -g pnpm@10.30.3
+
+      - name: Build Windows backend
+        shell: pwsh
+        run: cargo build --release --target x86_64-pc-windows-msvc -p goose-cli --bin goose
+
+      - name: Prepare desktop binaries
+        shell: pwsh
+        run: |
+          Remove-Item -Recurse -Force ./ui/desktop/src/bin -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force ./ui/desktop/src/bin | Out-Null
+          Copy-Item ./target/x86_64-pc-windows-msvc/release/goose.exe ./ui/desktop/src/bin/goose.exe
+
+      - name: Build Windows desktop packages
+        shell: pwsh
+        working-directory: ui/desktop
+        run: |
+          pnpm install --frozen-lockfile
+          node scripts/build-main.js
+          node scripts/prepare-platform-binaries.js
+          pnpm run make --platform=win32 --arch=x64
+
+      - name: Assemble release assets
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $outRoot = Join-Path $env:GITHUB_WORKSPACE 'ui/desktop/out'
+          $distribution = Get-ChildItem $outRoot -Directory | Where-Object { $_.Name -like '*win32-x64' } | Select-Object -First 1
+          if (-not $distribution) { throw "Windows distribution was not found under $outRoot" }
+
+          $portable = Join-Path $env:GITHUB_WORKSPACE 'Yiruo-win32-x64'
+          Copy-Item $distribution.FullName $portable -Recurse
+          New-Item -ItemType Directory -Force (Join-Path $portable 'resources/bin') | Out-Null
+          Copy-Item ./ui/desktop/src/bin/* (Join-Path $portable 'resources/bin') -Recurse -Force
+          7z a -tzip (Join-Path $env:GITHUB_WORKSPACE 'Yiruo-win32-x64.zip') "$portable\*" | Out-Null
+
+          $squirrelRoot = Join-Path $outRoot 'make/squirrel.windows/x64'
+          if (-not (Test-Path $squirrelRoot)) { throw "Squirrel package was not found at $squirrelRoot" }
+          $installer = Join-Path $env:GITHUB_WORKSPACE 'Yiruo-windows-installer'
+          Copy-Item $squirrelRoot $installer -Recurse
+          7z a -tzip (Join-Path $env:GITHUB_WORKSPACE 'Yiruo-windows-installer.zip') "$installer\*" | Out-Null
+
+          New-Item -ItemType Directory -Force (Join-Path $env:GITHUB_WORKSPACE 'release-assets') | Out-Null
+          Copy-Item ./Yiruo-win32-x64.zip ./release-assets/
+          Copy-Item ./Yiruo-windows-installer.zip ./release-assets/
+          Copy-Item (Join-Path $installer 'Yiruo-Setup.exe') ./release-assets/ -ErrorAction Stop
+          Get-ChildItem ./release-assets | Select-Object Name, Length
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1.21.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref_name }}
+          name: Yiruo 壹若 ${{ github.ref_name }}
+          artifacts: release-assets/*
+          generateReleaseNotes: true
+          allowUpdates: true
+          omitPrereleaseDuringUpdate: true

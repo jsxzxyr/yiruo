@@ -6,7 +6,7 @@ on:
     branches:
       - "release/*"
     tags:
-      - "v1.*"
+      - "goose-v1.*"
 
 name: Release
 

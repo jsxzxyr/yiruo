@@ -65,8 +65,8 @@ module.exports = {
       name: '@electron-forge/publisher-github',
       config: {
         repository: {
-          owner: process.env.GITHUB_OWNER || 'aaif-goose',
-          name: process.env.GITHUB_REPO || 'goose',
+          owner: process.env.GITHUB_OWNER || 'jsxzxyr',
+          name: process.env.GITHUB_REPO || 'yiruo',
         },
         prerelease: false,
         draft: true,
@@ -74,6 +74,15 @@ module.exports = {
     },
   ],
   makers: [
+    {
+      name: '@electron-forge/maker-squirrel',
+      platforms: ['win32'],
+      config: {
+        name: 'yiruo',
+        setupExe: 'Yiruo-Setup.exe',
+        setupIcon: resolve(__dirname, 'src/images/icon.ico'),
+      },
+    },
     {
       name: '@electron-forge/maker-zip',
       platforms: ['darwin', 'win32', 'linux'],
