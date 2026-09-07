@@ -557,11 +557,7 @@ pub async fn emit_event(
     event_name: &str,
     mut properties: HashMap<String, serde_json::Value>,
 ) -> Result<(), String> {
-    // Only onboarding events are enabled for now. These bypass the telemetry
-    // check so we can track the funnel before the user makes their choice.
-    let is_onboarding_event =
-        event_name.starts_with("onboarding_") || event_name == "telemetry_preference_set";
-    if !is_onboarding_event {
+    if !is_telemetry_enabled() {
         return Ok(());
     }
 

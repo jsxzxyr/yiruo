@@ -1,4 +1,5 @@
 pub mod adversary_inspector;
+pub mod audit;
 pub mod classification_client;
 pub mod dlp;
 pub mod egress_inspector;
