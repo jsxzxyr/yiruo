@@ -60,8 +60,8 @@ where
                 let sanitized = sanitize_unicode_tags(original);
                 if *original != sanitized {
                     tracing::info!(
-                        original = %original,
-                        sanitized = %sanitized,
+                        original_len = original.len(),
+                        sanitized_len = sanitized.len(),
                         removed_count = original.len() - sanitized.len(),
                         "Unicode Tags sanitized during Message deserialization"
                     );

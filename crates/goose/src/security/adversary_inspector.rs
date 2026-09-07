@@ -430,11 +430,13 @@ impl ToolInspector for AdversaryInspector {
                 .await
             {
                 Ok((true, reason)) => {
+                    let reason_hash = blake3::hash(reason.as_bytes()).to_hex().to_string();
                     tracing::debug!(
                         security.event_type = "adversary_detection",
                         security.action = "ALLOW",
                         security.confidence = 1.0_f32,
-                        security.explanation = %reason,
+                        security.explanation_type = "adversary_review",
+                        security.reason_hash = %reason_hash,
                         tool.name = %tool_call_name,
                         tool.request_id = %request.id,
                         "adversary review: ALLOW"
@@ -449,11 +451,13 @@ impl ToolInspector for AdversaryInspector {
                     });
                 }
                 Ok((false, reason)) => {
+                    let reason_hash = blake3::hash(reason.as_bytes()).to_hex().to_string();
                     tracing::warn!(
                         security.event_type = "adversary_detection",
                         security.action = "BLOCK",
                         security.confidence = 1.0_f32,
-                        security.explanation = %reason,
+                        security.explanation_type = "adversary_review",
+                        security.reason_hash = %reason_hash,
                         tool.name = %tool_call_name,
                         tool.request_id = %request.id,
                         "adversary review: BLOCK"
@@ -468,11 +472,13 @@ impl ToolInspector for AdversaryInspector {
                     });
                 }
                 Err(e) => {
+                    let error_hash = blake3::hash(e.to_string().as_bytes()).to_hex().to_string();
                     tracing::warn!(
                         security.event_type = "adversary_detection",
                         security.action = "ALLOW",
                         security.confidence = 0.0_f32,
-                        security.explanation = %format!("error (fail-open): {}", e),
+                        security.explanation_type = "adversary_review_error",
+                        security.error_hash = %error_hash,
                         tool.name = %tool_call_name,
                         tool.request_id = %request.id,
                         "adversary review: error (fail-open)"

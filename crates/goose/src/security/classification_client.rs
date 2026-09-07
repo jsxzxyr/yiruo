@@ -78,8 +78,6 @@ impl ClassificationClient {
 
         tracing::debug!(
             model_name = %model_name,
-            endpoint = %model_info.endpoint,
-            extra_params = ?model_info.extra_params,
             "Creating classification client from model mapping"
         );
 
@@ -129,8 +127,10 @@ impl ClassificationClient {
             .map(|t| t.trim().to_string())
             .filter(|t| !t.is_empty());
 
+        let endpoint = Url::parse(&endpoint_url)?;
         tracing::debug!(
-            endpoint = %endpoint_url,
+            endpoint_scheme = %endpoint.scheme(),
+            endpoint_host = endpoint.host_str().unwrap_or("<missing>"),
             has_token = auth_token.is_some(),
             "Creating classification client from endpoint"
         );

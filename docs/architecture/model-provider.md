@@ -61,14 +61,15 @@ default-model, and working-directory providers) wrap their result before it is
 returned to the agent. This also covers declarative providers because they use
 the same registry entry path.
 
-The wrapper emits only provider name, model name, message count, and tool count
-to debug tracing. It never serializes system prompts, messages, tool schemas,
-request headers, or provider objects. Provider capability and session methods
-are delegated so existing Goose behavior remains intact while the agent sees
-only the Provider interface.
+The wrapper emits only provider name, model name, message count, tool count,
+classification, and finding count to debug tracing. It scans the system
+prompt, serialized messages, tool schemas, and tool results before delegation.
+It never serializes those values into diagnostics. Credential findings are
+blocked for every model, and L2 or higher findings are blocked unless the
+provider name explicitly identifies a local adapter. A redacted request can
+pass without the original value.
 
-This is an ingress boundary, not the final security decision. Phase 3 must add
-the policy decision before delegation; Phase 4 must add classification, DLP,
-PII detection, and redaction; Phase 9 must add budget reservation and
-settlement. Direct providers constructed inside unit-test fixtures are test
+Policy confirmation, provider-specific allowlists, and budget reservation are
+still separate gateway inputs. They must be added before remote L2 handling
+is relaxed. Direct providers constructed inside unit-test fixtures are test
 dependencies and are not runtime registry outputs.

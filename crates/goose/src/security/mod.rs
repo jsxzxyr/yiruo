@@ -1,5 +1,6 @@
 pub mod adversary_inspector;
 pub mod classification_client;
+pub mod dlp;
 pub mod egress_inspector;
 pub mod patterns;
 pub mod scanner;
@@ -171,14 +172,17 @@ impl SecurityManager {
                     .await?;
 
                 let config_threshold = scanner.get_threshold_from_config();
-                let sanitized_explanation = analysis_result.explanation.replace('\n', " | ");
-
                 if analysis_result.is_malicious {
                     let above_threshold = analysis_result.confidence > config_threshold;
                     let finding_id = format!("SEC-{}", Uuid::new_v4().simple());
 
-                    let tool_call_json =
-                        serde_json::to_string(&tool_call).unwrap_or_else(|_| "{}".to_string());
+                    let tool_call_hash = blake3::hash(
+                        serde_json::to_string(&tool_call)
+                            .unwrap_or_else(|_| "{}".to_string())
+                            .as_bytes(),
+                    )
+                    .to_hex()
+                    .to_string();
 
                     let action = if above_threshold { "BLOCK" } else { "LOG" };
 
@@ -191,10 +195,10 @@ impl SecurityManager {
                         security.above_threshold = above_threshold,
                         security.threat_type = "command_injection",
                         security.finding_id = %finding_id,
-                        security.explanation = %sanitized_explanation,
+                        security.explanation_type = "prompt_injection",
+                        security.payload_hash = %tool_call_hash,
                         tool.name = %tool_call.name,
                         tool.request_id = %tool_request.id,
-                        tool.call_json = %tool_call_json,
                         "{}",
                         if above_threshold {
                             "prompt injection scan: finding above threshold"
@@ -213,8 +217,13 @@ impl SecurityManager {
                         });
                     }
                 } else if analysis_result.scanned {
-                    let tool_call_json =
-                        serde_json::to_string(&tool_call).unwrap_or_else(|_| "{}".to_string());
+                    let tool_call_hash = blake3::hash(
+                        serde_json::to_string(&tool_call)
+                            .unwrap_or_else(|_| "{}".to_string())
+                            .as_bytes(),
+                    )
+                    .to_hex()
+                    .to_string();
 
                     tracing::info!(
                         monotonic_counter.goose.prompt_injection_tool_call_passed = 1,
@@ -226,7 +235,7 @@ impl SecurityManager {
                         security.threat_type = "command_injection",
                         tool.name = %tool_call.name,
                         tool.request_id = %tool_request.id,
-                        tool.call_json = %tool_call_json,
+                        security.payload_hash = %tool_call_hash,
                         "prompt injection scan: tool call passed"
                     );
                 }

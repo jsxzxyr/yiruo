@@ -3,7 +3,7 @@
 //! Provider implementations still come from Goose, but callers only receive
 //! this wrapper from the provider registry.  The wrapper deliberately keeps
 //! request contents out of diagnostics and provides the seam where the policy
-//! engine, DLP, and budget ledger will be attached in later phases.
+//! engine, DLP, and budget ledger are attached at this boundary.
 
 use async_trait::async_trait;
 use goose_providers::base::{MessageStream, ModelInfo, PermissionRouting, Provider};
@@ -19,15 +19,20 @@ use rmcp::model::Tool;
 use std::sync::Arc;
 use tokio::sync::watch;
 
+use crate::policy_engine::DataClassification;
+use crate::security::dlp::DlpScanner;
+
 /// Provider calls are intentionally represented by metadata only.  This is
-/// the future policy-engine input; raw prompts, tool schemas, and attachments
-/// must never be placed in an audit event.
+/// the policy-engine input; raw prompts, tool schemas, and attachments must
+/// never be placed in an audit event.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct GatewayCallMetadata {
     pub provider: String,
     pub model: String,
     pub message_count: usize,
     pub tool_count: usize,
+    pub data_classification: DataClassification,
+    pub finding_count: usize,
 }
 
 impl GatewayCallMetadata {
@@ -36,12 +41,16 @@ impl GatewayCallMetadata {
         model_config: &ModelConfig,
         messages: &[Message],
         tools: &[Tool],
+        data_classification: DataClassification,
+        finding_count: usize,
     ) -> Self {
         Self {
             provider: provider.to_string(),
             model: model_config.model_name.clone(),
             message_count: messages.len(),
             tool_count: tools.len(),
+            data_classification,
+            finding_count,
         }
     }
 }
@@ -61,20 +70,30 @@ impl ModelGatewayProvider {
     fn metadata(
         &self,
         model_config: &ModelConfig,
+        system: &str,
         messages: &[Message],
         tools: &[Tool],
     ) -> GatewayCallMetadata {
-        GatewayCallMetadata::from_request(self.inner.get_name(), model_config, messages, tools)
+        let dlp = scan_model_input(system, messages, tools);
+        GatewayCallMetadata::from_request(
+            self.inner.get_name(),
+            model_config,
+            messages,
+            tools,
+            dlp.classification,
+            dlp.finding_count,
+        )
     }
 
-    /// Emits only non-content metadata.  The policy engine will replace this
-    /// with a structured audit recorder once it lands in Phase 3.
+    /// Emits only non-content metadata for the local audit path.
     fn record_start(&self, metadata: &GatewayCallMetadata) {
         tracing::debug!(
             provider = %metadata.provider,
             model = %metadata.model,
             message_count = metadata.message_count,
             tool_count = metadata.tool_count,
+            data_classification = ?metadata.data_classification,
+            finding_count = metadata.finding_count,
             "model gateway request"
         );
     }
@@ -101,12 +120,13 @@ impl Provider for ModelGatewayProvider {
         messages: &[Message],
         tools: &[Tool],
     ) -> Result<MessageStream, ProviderError> {
-        let metadata = self.metadata(model_config, messages, tools);
+        let metadata = self.metadata(model_config, system, messages, tools);
+        enforce_dlp_boundary(self.inner.get_name(), &metadata)?;
         self.record_start(&metadata);
 
         // This is deliberately the only call to a concrete Provider for model
-        // inference in the wrapper.  Policy, redaction, and budget checks are
-        // added here before this delegation in their respective phases.
+        // inference in the wrapper. Policy confirmation, redaction, and
+        // budget settlement remain separate gateway inputs.
         self.inner
             .stream(model_config, system, messages, tools)
             .await
@@ -213,6 +233,84 @@ impl Provider for ModelGatewayProvider {
     }
 }
 
+struct DlpSummary {
+    classification: DataClassification,
+    finding_count: usize,
+}
+
+fn scan_model_input(system: &str, messages: &[Message], tools: &[Tool]) -> DlpSummary {
+    let scanner = DlpScanner::new();
+    let mut classification = DataClassification::L1Internal;
+    let mut finding_count = 0;
+
+    let system_report = scanner.scan(system);
+    classification = classification.max(system_report.classification);
+    finding_count += system_report.findings.len();
+
+    for message in messages {
+        let serialized = serde_json::to_string(message).unwrap_or_default();
+        let report = scanner.scan(&serialized);
+        classification = classification.max(report.classification);
+        finding_count += report.findings.len();
+    }
+
+    let serialized_tools = serde_json::to_string(tools).unwrap_or_default();
+    let report = scanner.scan(&serialized_tools);
+    classification = classification.max(report.classification);
+    finding_count += report.findings.len();
+
+    DlpSummary {
+        classification,
+        finding_count,
+    }
+}
+
+fn enforce_dlp_boundary(
+    provider: &str,
+    metadata: &GatewayCallMetadata,
+) -> Result<(), ProviderError> {
+    if metadata.data_classification >= DataClassification::L4Restricted {
+        tracing::warn!(
+            security.event_type = "model_egress_dlp",
+            security.action = "BLOCK",
+            security.reason = "credential_detected",
+            provider = %provider,
+            model = %metadata.model,
+            data_classification = ?metadata.data_classification,
+            finding_count = metadata.finding_count,
+            "model gateway blocked restricted data"
+        );
+        return Err(ProviderError::InvalidValue(
+            "Model request blocked by local DLP policy".to_string(),
+        ));
+    }
+
+    if metadata.data_classification >= DataClassification::L2Sensitive
+        && !is_explicitly_local_provider(provider)
+    {
+        tracing::warn!(
+            security.event_type = "model_egress_dlp",
+            security.action = "BLOCK",
+            security.reason = "sensitive_data_requires_local_or_redacted_route",
+            provider = %provider,
+            model = %metadata.model,
+            data_classification = ?metadata.data_classification,
+            finding_count = metadata.finding_count,
+            "model gateway blocked sensitive data"
+        );
+        return Err(ProviderError::InvalidValue(
+            "Sensitive model input requires a local or redacted route".to_string(),
+        ));
+    }
+
+    Ok(())
+}
+
+fn is_explicitly_local_provider(provider: &str) -> bool {
+    let provider = provider.to_ascii_lowercase();
+    provider.contains("local") || provider.contains("ollama") || provider.contains("vllm")
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -228,7 +326,7 @@ mod tests {
     #[async_trait]
     impl Provider for RecordingProvider {
         fn get_name(&self) -> &str {
-            "recording"
+            "local-recording"
         }
 
         async fn stream(
@@ -275,11 +373,76 @@ mod tests {
             &ModelConfig::new("model"),
             &[Message::user().with_text("private document content")],
             &[],
+            DataClassification::L1Internal,
+            0,
         );
 
         assert_eq!(metadata.message_count, 1);
         assert_eq!(metadata.tool_count, 0);
+        assert_eq!(metadata.data_classification, DataClassification::L1Internal);
         let debug = format!("{metadata:?}");
         assert!(!debug.contains("private document content"));
+    }
+
+    #[tokio::test]
+    async fn gateway_blocks_credentials_before_provider_call() {
+        let calls = Arc::new(AtomicUsize::new(0));
+        let provider: Arc<dyn Provider> =
+            Arc::new(ModelGatewayProvider::new(Arc::new(RecordingProvider {
+                calls: calls.clone(),
+            })));
+        let config = ModelConfig::new("test-model");
+        let result = provider
+            .complete(
+                &config,
+                "system",
+                &[Message::user().with_text("api_key=secret-value-123")],
+                &[],
+            )
+            .await;
+
+        assert!(matches!(result, Err(ProviderError::InvalidValue(_))));
+        assert_eq!(calls.load(Ordering::SeqCst), 0);
+    }
+
+    #[tokio::test]
+    async fn gateway_accepts_redacted_sensitive_input_without_original_value() {
+        let calls = Arc::new(AtomicUsize::new(0));
+        let provider: Arc<dyn Provider> =
+            Arc::new(ModelGatewayProvider::new(Arc::new(RecordingProvider {
+                calls: calls.clone(),
+            })));
+        let redacted = DlpScanner::new()
+            .redact("Contact 13800138000")
+            .unwrap()
+            .text;
+        let config = ModelConfig::new("test-model");
+
+        provider
+            .complete(
+                &config,
+                "system",
+                &[Message::user().with_text(redacted.clone())],
+                &[],
+            )
+            .await
+            .unwrap();
+
+        assert!(!redacted.contains("13800138000"));
+        assert_eq!(calls.load(Ordering::SeqCst), 1);
+    }
+
+    #[test]
+    fn external_gateway_route_blocks_sensitive_classification() {
+        let metadata = GatewayCallMetadata {
+            provider: "openai".to_string(),
+            model: "test-model".to_string(),
+            message_count: 1,
+            tool_count: 0,
+            data_classification: DataClassification::L2Sensitive,
+            finding_count: 1,
+        };
+
+        assert!(enforce_dlp_boundary("openai", &metadata).is_err());
     }
 }
