@@ -27,7 +27,7 @@ pub enum ToolDecision {
     Deny { reason: String },
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Clone, Copy)]
 pub struct ToolRouter;
 
 impl ToolRouter {

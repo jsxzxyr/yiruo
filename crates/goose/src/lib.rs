@@ -17,6 +17,7 @@ pub mod conversation {
 }
 pub mod dictation;
 pub mod doctor;
+pub mod document_agent;
 pub mod download_manager;
 pub mod elicitation;
 pub mod execution;
