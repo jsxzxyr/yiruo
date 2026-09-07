@@ -44,6 +44,7 @@ pub mod recipe;
 pub mod recipe_deeplink;
 pub mod scheduler;
 pub mod scheduler_trait;
+pub mod search_gateway;
 pub mod security;
 pub mod session;
 pub mod session_context;
