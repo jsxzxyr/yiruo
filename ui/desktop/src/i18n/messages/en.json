@@ -48,7 +48,7 @@
     "defaultMessage": "Delete \"{name}\"? This cannot be undone."
   },
   "appsView.description": {
-    "defaultMessage": "Applications from your MCP servers and Apps built by goose itself. You can ask it to create new apps through the chat interface and they will appear here."
+    "defaultMessage": "Applications from your connected services and apps built by Yiruo. You can ask it to create new apps through the chat interface and they will appear here."
   },
   "appsView.errorLoading": {
     "defaultMessage": "Error loading apps: {error}"
@@ -66,7 +66,7 @@
     "defaultMessage": "Loading apps..."
   },
   "appsView.noAppsDescription": {
-    "defaultMessage": "Open a chat and ask goose for the app you want to have. It can build one for you and that will appear here. Or if somebody shared an app, you can import it using the button above."
+    "defaultMessage": "Open a chat and ask Yiruo for the app you want to have. It can build one for you and that will appear here. Or if somebody shared an app, you can import it using the button above."
   },
   "appsView.noAppsTitle": {
     "defaultMessage": "No apps available"
@@ -105,7 +105,7 @@
     "defaultMessage": "Credential deleted"
   },
   "authSettings.description": {
-    "defaultMessage": "Manage provider credentials stored locally by goose."
+    "defaultMessage": "Manage provider credentials stored locally by Yiruo."
   },
   "authSettings.empty": {
     "defaultMessage": "No locally stored provider credentials were found."
@@ -192,10 +192,10 @@
     "defaultMessage": "Launch"
   },
   "chat.notification.taskComplete.body": {
-    "defaultMessage": "Click here to bring Goose back into focus."
+    "defaultMessage": "Click here to bring Yiruo back into focus."
   },
   "chat.notification.taskComplete.title": {
-    "defaultMessage": "Goose finished the task."
+    "defaultMessage": "Yiruo finished the task."
   },
   "chatInput.contextWindow": {
     "defaultMessage": "Context window"
@@ -252,7 +252,7 @@
     "defaultMessage": "Default Mode"
   },
   "chatSettings.responseStylesDescription": {
-    "defaultMessage": "Choose how Goose should format and style its responses"
+    "defaultMessage": "Choose how Yiruo should format and style its responses"
   },
   "chatSettings.responseStylesTitle": {
     "defaultMessage": "Response Styles"
@@ -273,10 +273,10 @@
     "defaultMessage": "Configuration Editor"
   },
   "configSettings.description": {
-    "defaultMessage": "Edit your goose configuration settings"
+    "defaultMessage": "Edit your Yiruo configuration settings"
   },
   "configSettings.descriptionWithProvider": {
-    "defaultMessage": "Edit your goose configuration settings (current settings for {provider})"
+    "defaultMessage": "Edit your Yiruo configuration settings (current settings for {provider})"
   },
   "configSettings.done": {
     "defaultMessage": "Done"
@@ -348,7 +348,7 @@
     "defaultMessage": "Max Turns"
   },
   "conversationLimitsDropdown.maxTurnsDescription": {
-    "defaultMessage": "Maximum agent turns before Goose asks for user input"
+    "defaultMessage": "Maximum task turns before Yiruo asks for user input"
   },
   "costTracker.costUnavailable": {
     "defaultMessage": "Cost data not available for {model} ({inputTokens} input, {outputTokens} output tokens)"
@@ -801,7 +801,7 @@
     "defaultMessage": "Edit {name} settings"
   },
   "defaultCardButtons.getStarted": {
-    "defaultMessage": "Get started with goose!"
+    "defaultMessage": "Get started with Yiruo!"
   },
   "defaultProviderSetupForm.apiHostLabel": {
     "defaultMessage": "API Host"
@@ -969,7 +969,7 @@
     "defaultMessage": "Information request was cancelled."
   },
   "elicitationRequest.defaultMessage": {
-    "defaultMessage": "Goose needs some information from you."
+    "defaultMessage": "Yiruo needs some information from you."
   },
   "elicitationRequest.expired": {
     "defaultMessage": "This request has expired. The extension will need to ask again."
@@ -1014,7 +1014,7 @@
     "defaultMessage": "An error occurred."
   },
   "errorBoundary.errorWithVersion": {
-    "defaultMessage": "An error occurred in Goose v{version}."
+    "defaultMessage": "An error occurred in Yiruo v{version}."
   },
   "errorBoundary.heading": {
     "defaultMessage": "Honk!"
@@ -1221,7 +1221,7 @@
     "defaultMessage": "Certificate fingerprint requires an https URL"
   },
   "externalBackendSection.restartNote": {
-    "defaultMessage": "Changes apply to new chat windows. Restart Goose to update existing windows."
+    "defaultMessage": "Changes apply to new task windows. Restart Yiruo to update existing windows."
   },
   "externalBackendSection.secretKey": {
     "defaultMessage": "Secret Key"
@@ -1338,7 +1338,7 @@
     "defaultMessage": "Project Hints (.goosehints)"
   },
   "groupedExtensionLoadingToast.askGoose": {
-    "defaultMessage": "Ask goose"
+    "defaultMessage": "Ask Yiruo"
   },
   "groupedExtensionLoadingToast.collapseDetails": {
     "defaultMessage": "Collapse details"
@@ -1397,6 +1397,30 @@
   "headersSection.value": {
     "defaultMessage": "Value"
   },
+  "hub.brandDescription": {
+    "defaultMessage": "A calm workspace for documents, writing, research, and daily work."
+  },
+  "hub.chooseTask": {
+    "defaultMessage": "Start with a task"
+  },
+  "hub.compareFiles": {
+    "defaultMessage": "Compare files"
+  },
+  "hub.compareFilesPrompt": {
+    "defaultMessage": "Please compare these files and highlight the important differences."
+  },
+  "hub.dataAnalysis": {
+    "defaultMessage": "Data analysis"
+  },
+  "hub.dataAnalysisPrompt": {
+    "defaultMessage": "Please analyze this data and summarize the key findings."
+  },
+  "hub.documentProcessing": {
+    "defaultMessage": "Document processing"
+  },
+  "hub.documentProcessingPrompt": {
+    "defaultMessage": "Please help me analyze and organize this document."
+  },
   "hub.goodAfternoon": {
     "defaultMessage": "Good afternoon"
   },
@@ -1405,6 +1429,24 @@
   },
   "hub.goodMorning": {
     "defaultMessage": "Good morning"
+  },
+  "hub.knowledgeBase": {
+    "defaultMessage": "My knowledge base"
+  },
+  "hub.knowledgeBasePrompt": {
+    "defaultMessage": "Please find the most relevant information in my local materials."
+  },
+  "hub.officialWriting": {
+    "defaultMessage": "Official writing"
+  },
+  "hub.officialWritingPrompt": {
+    "defaultMessage": "Please help me turn these materials into a formal work report."
+  },
+  "hub.webResearch": {
+    "defaultMessage": "Web research"
+  },
+  "hub.webResearchPrompt": {
+    "defaultMessage": "Please research this topic and include reliable sources."
   },
   "huggingFaceModelSearch.download": {
     "defaultMessage": "Download"
@@ -1458,7 +1500,7 @@
     "defaultMessage": "Hugging Face"
   },
   "imagePreview.altText": {
-    "defaultMessage": "goose image"
+    "defaultMessage": "Yiruo image"
   },
   "imagePreview.clickToCollapse": {
     "defaultMessage": "Click to collapse"
@@ -1617,13 +1659,13 @@
     "defaultMessage": "Application Shortcuts"
   },
   "keyboardShortcuts.categoryApplicationDescription": {
-    "defaultMessage": "These shortcuts work when Goose is the active application"
+    "defaultMessage": "These shortcuts work when Yiruo is the active application"
   },
   "keyboardShortcuts.categoryGlobal": {
     "defaultMessage": "Global Shortcuts"
   },
   "keyboardShortcuts.categoryGlobalDescription": {
-    "defaultMessage": "These shortcuts work system-wide, even when Goose is not focused"
+    "defaultMessage": "These shortcuts work system-wide, even when Yiruo is not focused"
   },
   "keyboardShortcuts.categorySearch": {
     "defaultMessage": "Search Shortcuts"
@@ -1665,22 +1707,22 @@
     "defaultMessage": "Find Previous"
   },
   "keyboardShortcuts.focusWindowDescription": {
-    "defaultMessage": "Bring Goose window to front from anywhere"
+    "defaultMessage": "Bring Yiruo window to front from anywhere"
   },
   "keyboardShortcuts.focusWindowLabel": {
-    "defaultMessage": "Focus Goose Window"
+    "defaultMessage": "Focus Yiruo Window"
   },
   "keyboardShortcuts.loading": {
     "defaultMessage": "Loading..."
   },
   "keyboardShortcuts.newChatDescription": {
-    "defaultMessage": "Create a new chat in the current window"
+    "defaultMessage": "Create a new task in the current window"
   },
   "keyboardShortcuts.newChatLabel": {
     "defaultMessage": "New Chat"
   },
   "keyboardShortcuts.newChatWindowDescription": {
-    "defaultMessage": "Open a new Goose window"
+    "defaultMessage": "Open a new Yiruo window"
   },
   "keyboardShortcuts.newChatWindowLabel": {
     "defaultMessage": "New Chat Window"
@@ -1749,13 +1791,13 @@
     "defaultMessage": "Toggle Navigation"
   },
   "launcher.placeholder": {
-    "defaultMessage": "Ask goose anything..."
+    "defaultMessage": "What would you like to work on?"
   },
   "loadingGoose.compacting": {
-    "defaultMessage": "goose is compacting the conversation..."
+    "defaultMessage": "Yiruo is compacting the conversation..."
   },
   "loadingGoose.idle": {
-    "defaultMessage": "goose is working on it…"
+    "defaultMessage": "Yiruo is working on it…"
   },
   "loadingGoose.loadingConversation": {
     "defaultMessage": "loading conversation..."
@@ -1764,13 +1806,13 @@
     "defaultMessage": "restarting session..."
   },
   "loadingGoose.streaming": {
-    "defaultMessage": "goose is working on it…"
+    "defaultMessage": "Yiruo is working on it…"
   },
   "loadingGoose.thinking": {
-    "defaultMessage": "goose is thinking…"
+    "defaultMessage": "Yiruo is thinking…"
   },
   "loadingGoose.waiting": {
-    "defaultMessage": "goose is waiting…"
+    "defaultMessage": "Yiruo is waiting…"
   },
   "localInferenceSettings.deleteConfirm": {
     "defaultMessage": "Delete this model? You can re-download it later."
@@ -2409,19 +2451,19 @@
     "defaultMessage": "The server may be starting up or temporarily unavailable."
   },
   "onboardingGuard.checkProviderErrorTitle": {
-    "defaultMessage": "Unable to connect to Goose server"
+    "defaultMessage": "Unable to connect to the Yiruo service"
   },
   "onboardingGuard.retry": {
     "defaultMessage": "Retry"
   },
   "onboardingGuard.welcomeDescription": {
-    "defaultMessage": "Your local AI agent. Connect an AI model provider to get started."
+    "defaultMessage": "Your calm AI workspace. Connect a model provider to get started."
   },
   "onboardingGuard.welcomeTitle": {
-    "defaultMessage": "Welcome to goose"
+    "defaultMessage": "Welcome to Yiruo"
   },
   "onboardingSuccess.allSet": {
-    "defaultMessage": "You're all set to start using goose."
+    "defaultMessage": "You're all set to start using Yiruo."
   },
   "onboardingSuccess.connectedTo": {
     "defaultMessage": "Connected to {providerName}"
@@ -2436,7 +2478,7 @@
     "defaultMessage": "Local model ready"
   },
   "onboardingSuccess.privacyDescription": {
-    "defaultMessage": "Anonymous usage data helps improve goose. We never collect your conversations, code, or personal data."
+    "defaultMessage": "Anonymous usage data helps improve Yiruo. We never collect your conversations, code, or personal data."
   },
   "onboardingSuccess.privacyTitle": {
     "defaultMessage": "Privacy"
@@ -2604,10 +2646,10 @@
     "defaultMessage": "Session metrics (duration, interaction count, token usage)"
   },
   "privacyInfoModal.collectVersion": {
-    "defaultMessage": "goose version and install method"
+    "defaultMessage": "Yiruo version and install method"
   },
   "privacyInfoModal.description": {
-    "defaultMessage": "Anonymous usage data helps us understand how goose is used and identify areas for improvement."
+    "defaultMessage": "Anonymous usage data helps us understand how Yiruo is used and identify areas for improvement."
   },
   "privacyInfoModal.neverCollect": {
     "defaultMessage": "We never collect your conversations, code, tool arguments, error messages, or any personal data. You can change this setting anytime in Settings."
@@ -2708,6 +2750,12 @@
   "providerCard.deprecatedReplacement": {
     "defaultMessage": "Deprecated — use {replacement} instead."
   },
+  "providerCard.external": {
+    "defaultMessage": "External"
+  },
+  "providerCard.local": {
+    "defaultMessage": "Local"
+  },
   "providerCard.noMetadata": {
     "defaultMessage": "ProviderCard error: No metadata provided"
   },
@@ -2784,7 +2832,7 @@
     "defaultMessage": "Signing in..."
   },
   "providerConfigurationModal.addApiKeyDescription": {
-    "defaultMessage": "Add your API key(s) for this provider to integrate into goose"
+    "defaultMessage": "Add your API key(s) for this provider to integrate into Yiruo"
   },
   "providerConfigurationModal.browserWindowHint": {
     "defaultMessage": "A browser window will open for you to complete the login."
@@ -2832,7 +2880,7 @@
     "defaultMessage": "Error"
   },
   "providerConfigurationModal.externalSetupIntro": {
-    "defaultMessage": "This provider is configured outside of goose. Follow these steps:"
+    "defaultMessage": "This provider is configured outside of Yiruo. Follow these steps:"
   },
   "providerConfigurationModal.goBack": {
     "defaultMessage": "Go Back"
@@ -2916,7 +2964,7 @@
     "defaultMessage": "Loading providers..."
   },
   "providerSettings.onboardingDescription": {
-    "defaultMessage": "Select an AI model provider to get started with goose. You'll need to use API keys generated by each provider which will be encrypted and stored locally. You can change your provider at any time in settings."
+    "defaultMessage": "Select an AI model provider to get started with Yiruo. Credentials are encrypted and stored locally. You can change your provider at any time in settings."
   },
   "providerSettings.otherProviders": {
     "defaultMessage": "Other providers"
@@ -3969,7 +4017,7 @@
     "defaultMessage": "Session description updated successfully"
   },
   "settings.appearance.description": {
-    "defaultMessage": "Configure how goose appears on your system"
+    "defaultMessage": "Configure how Yiruo appears on your system"
   },
   "settings.appearance.title": {
     "defaultMessage": "Appearance"
@@ -3984,13 +4032,13 @@
     "defaultMessage": "Cost Tracking"
   },
   "settings.dockIcon.description": {
-    "defaultMessage": "Show goose in the dock"
+    "defaultMessage": "Show Yiruo in the dock"
   },
   "settings.dockIcon.title": {
     "defaultMessage": "Dock icon"
   },
   "settings.help.description": {
-    "defaultMessage": "Help us improve goose by reporting issues or requesting new features"
+    "defaultMessage": "Help us improve Yiruo by reporting issues or requesting new features"
   },
   "settings.help.reportBug": {
     "defaultMessage": "Report a Bug"
@@ -4002,7 +4050,7 @@
     "defaultMessage": "Help & feedback"
   },
   "settings.language.description": {
-    "defaultMessage": "Choose the display language for goose"
+    "defaultMessage": "Choose the display language for Yiruo"
   },
   "settings.language.english": {
     "defaultMessage": "English"
@@ -4059,7 +4107,7 @@
     "defaultMessage": "Chinese (Traditional)"
   },
   "settings.menuBarIcon.description": {
-    "defaultMessage": "Show goose in the menu bar"
+    "defaultMessage": "Show Yiruo in the menu bar"
   },
   "settings.menuBarIcon.title": {
     "defaultMessage": "Menu bar icon"
@@ -4080,7 +4128,7 @@
     "defaultMessage": "Click on Notifications"
   },
   "settings.notifications.modal.macStep3": {
-    "defaultMessage": "Find and select goose in the application list"
+    "defaultMessage": "Find and select Yiruo in the application list"
   },
   "settings.notifications.modal.macStep4": {
     "defaultMessage": "Enable notifications and adjust settings as desired"
@@ -4098,7 +4146,7 @@
     "defaultMessage": "Go to System > Notifications"
   },
   "settings.notifications.modal.winStep3": {
-    "defaultMessage": "Find and select goose in the application list"
+    "defaultMessage": "Find and select Yiruo in the application list"
   },
   "settings.notifications.modal.winStep4": {
     "defaultMessage": "Toggle notifications on and adjust settings as desired"
@@ -4107,7 +4155,7 @@
     "defaultMessage": "Open Settings"
   },
   "settings.notifications.task.description": {
-    "defaultMessage": "Notify when Goose finishes a task while the window is in the background"
+    "defaultMessage": "Notify when Yiruo finishes a task while the window is in the background"
   },
   "settings.notifications.task.title": {
     "defaultMessage": "Task completion notifications"
@@ -4122,13 +4170,13 @@
     "defaultMessage": "Prevent Sleep"
   },
   "settings.theme.description": {
-    "defaultMessage": "Customize the look and feel of goose"
+    "defaultMessage": "Customize the look and feel of Yiruo"
   },
   "settings.theme.title": {
     "defaultMessage": "Theme"
   },
   "settings.updates.description": {
-    "defaultMessage": "Check for and install updates to keep goose running at its best"
+    "defaultMessage": "Check for and install updates to keep Yiruo running at its best"
   },
   "settings.updates.title": {
     "defaultMessage": "Updates"
@@ -4203,7 +4251,7 @@
     "defaultMessage": "Search skills..."
   },
   "skillsView.skillsDescription": {
-    "defaultMessage": "View installed skills that extend Goose capabilities. {shortcut} to search."
+    "defaultMessage": "View installed skills that extend Yiruo capabilities. {shortcut} to search."
   },
   "skillsView.skillsTitle": {
     "defaultMessage": "Skills"
@@ -4446,10 +4494,10 @@
     "defaultMessage": "Use other provider"
   },
   "telemetryConsentPrompt.description": {
-    "defaultMessage": "Would you like to share anonymous usage data to help improve goose? We never collect your conversations, code, or personal data."
+    "defaultMessage": "Would you like to share anonymous usage data to help improve Yiruo? We never collect your conversations, code, or personal data."
   },
   "telemetryConsentPrompt.heading": {
-    "defaultMessage": "Help improve goose"
+    "defaultMessage": "Help improve Yiruo"
   },
   "telemetryConsentPrompt.learnMore": {
     "defaultMessage": "Learn more"
@@ -4476,7 +4524,7 @@
     "defaultMessage": "Privacy"
   },
   "telemetrySettings.toggleDescription": {
-    "defaultMessage": "Help improve goose by sharing anonymous usage statistics."
+    "defaultMessage": "Help improve Yiruo by sharing anonymous usage statistics."
   },
   "telemetrySettings.toggleLabel": {
     "defaultMessage": "Anonymous usage data"
@@ -4557,7 +4605,7 @@
     "defaultMessage": "Allow {toolName}?"
   },
   "toolConfirmation.gooseWouldLikeToCallWithName": {
-    "defaultMessage": "Goose would like to call {toolName}. Allow?"
+    "defaultMessage": "Yiruo would like to call {toolName}. Allow?"
   },
   "updateSection.autoDownload": {
     "defaultMessage": "Goose will download the update in the background and install it the next time you quit or restart."

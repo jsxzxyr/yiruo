@@ -61,6 +61,7 @@ import { WEB_PROTOCOLS } from './utils/urlSecurity';
 import { openExternalUrl } from './utils/openExternalUrl';
 import { buildCSP } from './utils/csp';
 import { resolveWorkingDir } from './utils/workingDir';
+import { YIRUO_BRAND } from './brand';
 import {
   DesktopFileAccess,
   isAuthorizedFileAccessRequest,
@@ -106,11 +107,11 @@ const MENU_TRANSLATIONS_ZH_CN: Record<string, string> = {
   'New Chat Window': '新建聊天窗口',
   'Open Directory...': '打开目录…',
   'Recent Directories': '最近的目录',
-  'Focus Goose Window': '聚焦 Goose 窗口',
+  'Focus Yiruo Window': '聚焦 Yiruo 窗口',
   'Quick Launcher': '快速启动器',
   'Always on Top': '窗口置顶',
   'Toggle Navigation': '切换导航',
-  'About Goose': '关于 Goose',
+  'About Yiruo': '关于 Yiruo',
   // Electron's default role-based labels we want to translate as well.
   // (The menu role itself still provides the correct behaviour; only the
   // display string is overridden.)
@@ -762,7 +763,7 @@ app.on('open-url', async (_event, url) => {
 app.on('will-finish-launching', () => {
   if (process.platform === 'darwin') {
     app.setAboutPanelOptions({
-      applicationName: 'Goose',
+      applicationName: YIRUO_BRAND.name,
       applicationVersion: app.getVersion(),
     });
   }
@@ -817,7 +818,7 @@ async function handleFileOpen(filePath: string) {
 
     // Show user-friendly error notification
     new Notification({
-      title: 'Goose',
+      title: YIRUO_BRAND.name,
       body: `Could not open directory: ${path.basename(filePath)}`,
     }).show();
   }
@@ -2553,7 +2554,9 @@ async function appMain() {
 
   const shortcuts = getKeyboardShortcuts(settings);
 
-  const appMenu = menu?.items.find((item) => item.label === 'Goose');
+  const appMenu = menu?.items.find(
+    (item) => item.role === 'appMenu' || item.label === YIRUO_BRAND.name || item.label === 'Goose'
+  );
   if (appMenu?.submenu) {
     appMenu.submenu.insert(1, new MenuItem({ type: 'separator' }));
     if (shortcuts.settings) {
@@ -2681,7 +2684,7 @@ async function appMain() {
     if (shortcuts.focusWindow) {
       fileMenu.submenu.append(
         new MenuItem({
-          label: menuT('Focus Goose Window'),
+          label: menuT('Focus Yiruo Window'),
           accelerator: shortcuts.focusWindow,
           click() {
             focusWindow();
@@ -2788,15 +2791,15 @@ async function appMain() {
         helpMenu.submenu.append(new MenuItem({ type: 'separator' }));
       }
 
-      // Create the About Goose menu item with a submenu
-      const aboutGooseMenuItem = new MenuItem({
-        label: menuT('About Goose'),
+      // Create the About Yiruo menu item with a submenu
+      const aboutYiruoMenuItem = new MenuItem({
+        label: menuT('About Yiruo'),
         submenu: Menu.buildFromTemplate([]), // Start with an empty submenu for About
       });
 
-      // Add the Version menu item (display only) to the About Goose submenu
-      if (aboutGooseMenuItem.submenu) {
-        aboutGooseMenuItem.submenu.append(
+      // Add the Version menu item (display only) to the About Yiruo submenu
+      if (aboutYiruoMenuItem.submenu) {
+        aboutYiruoMenuItem.submenu.append(
           new MenuItem({
             label: `Version ${version || app.getVersion()}`,
             enabled: false,
@@ -2804,7 +2807,7 @@ async function appMain() {
         );
       }
 
-      helpMenu.submenu.append(aboutGooseMenuItem);
+      helpMenu.submenu.append(aboutYiruoMenuItem);
     }
   }
 
@@ -3131,7 +3134,7 @@ app.whenReady().then(async () => {
   try {
     await appMain();
   } catch (error) {
-    dialog.showErrorBox('Goose Error', `Failed to create main window: ${error}`);
+    dialog.showErrorBox(`${YIRUO_BRAND.name} Error`, `Failed to create main window: ${error}`);
     app.quit();
   }
 });

@@ -1,7 +1,7 @@
 /**
  * @vitest-environment jsdom
  */
-import { act, render } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import Hub from './Hub';
 import { IntlTestWrapper } from '../i18n/test-utils';
@@ -10,6 +10,7 @@ import { UserInput } from '../types/message';
 
 type ChatInputCapture = {
   draftRef?: { current: string };
+  initialValue?: string;
   handleSubmit: (input: UserInput) => void;
 };
 
@@ -87,6 +88,18 @@ describe('Hub', () => {
     renderHub(draftRef);
 
     expect(captured.chatInput?.draftRef).toBe(draftRef);
+  });
+
+  it('seeds the input with a selected office task', async () => {
+    renderHub({ current: '' });
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Document processing'));
+    });
+
+    expect(captured.chatInput?.initialValue).toBe(
+      'Please help me analyze and organize this document.'
+    );
   });
 
   it('drops the draft once the chat starts', async () => {

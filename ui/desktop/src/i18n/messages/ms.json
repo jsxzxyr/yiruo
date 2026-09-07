@@ -1376,6 +1376,30 @@
   "headersSection.value": {
     "defaultMessage": "Nilai"
   },
+  "hub.brandDescription": {
+    "defaultMessage": "A calm workspace for documents, writing, research, and daily work."
+  },
+  "hub.chooseTask": {
+    "defaultMessage": "Start with a task"
+  },
+  "hub.compareFiles": {
+    "defaultMessage": "Compare files"
+  },
+  "hub.compareFilesPrompt": {
+    "defaultMessage": "Please compare these files and highlight the important differences."
+  },
+  "hub.dataAnalysis": {
+    "defaultMessage": "Data analysis"
+  },
+  "hub.dataAnalysisPrompt": {
+    "defaultMessage": "Please analyze this data and summarize the key findings."
+  },
+  "hub.documentProcessing": {
+    "defaultMessage": "Document processing"
+  },
+  "hub.documentProcessingPrompt": {
+    "defaultMessage": "Please help me analyze and organize this document."
+  },
   "hub.goodAfternoon": {
     "defaultMessage": "Selamat tengah hari"
   },
@@ -1384,6 +1408,24 @@
   },
   "hub.goodMorning": {
     "defaultMessage": "Selamat pagi"
+  },
+  "hub.knowledgeBase": {
+    "defaultMessage": "My knowledge base"
+  },
+  "hub.knowledgeBasePrompt": {
+    "defaultMessage": "Please find the most relevant information in my local materials."
+  },
+  "hub.officialWriting": {
+    "defaultMessage": "Official writing"
+  },
+  "hub.officialWritingPrompt": {
+    "defaultMessage": "Please help me turn these materials into a formal work report."
+  },
+  "hub.webResearch": {
+    "defaultMessage": "Web research"
+  },
+  "hub.webResearchPrompt": {
+    "defaultMessage": "Please research this topic and include reliable sources."
   },
   "huggingFaceModelSearch.download": {
     "defaultMessage": "Muat Turun"
@@ -2680,6 +2722,12 @@
   },
   "promptsSettings.unsavedChanges": {
     "defaultMessage": "Anda mempunyai perubahan yang belum disimpan"
+  },
+  "providerCard.external": {
+    "defaultMessage": "External"
+  },
+  "providerCard.local": {
+    "defaultMessage": "Local"
   },
   "providerCard.noMetadata": {
     "defaultMessage": "Ralat ProviderCard: Tiada metadata disediakan"

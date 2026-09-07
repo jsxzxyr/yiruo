@@ -1376,6 +1376,30 @@
   "headersSection.value": {
     "defaultMessage": "值"
   },
+  "hub.brandDescription": {
+    "defaultMessage": "一个用于文档、写作、研究和日常工作的从容工作台。"
+  },
+  "hub.chooseTask": {
+    "defaultMessage": "从任务开始"
+  },
+  "hub.compareFiles": {
+    "defaultMessage": "比较文件"
+  },
+  "hub.compareFilesPrompt": {
+    "defaultMessage": "请比较这些文件，并突出重要差异。"
+  },
+  "hub.dataAnalysis": {
+    "defaultMessage": "数据分析"
+  },
+  "hub.dataAnalysisPrompt": {
+    "defaultMessage": "请分析这些数据并总结关键发现。"
+  },
+  "hub.documentProcessing": {
+    "defaultMessage": "文档处理"
+  },
+  "hub.documentProcessingPrompt": {
+    "defaultMessage": "请帮我分析并整理这份文档。"
+  },
   "hub.goodAfternoon": {
     "defaultMessage": "下午好"
   },
@@ -1384,6 +1408,24 @@
   },
   "hub.goodMorning": {
     "defaultMessage": "早上好"
+  },
+  "hub.knowledgeBase": {
+    "defaultMessage": "我的知识库"
+  },
+  "hub.knowledgeBasePrompt": {
+    "defaultMessage": "请在我的本地资料中查找最相关的信息。"
+  },
+  "hub.officialWriting": {
+    "defaultMessage": "公文写作"
+  },
+  "hub.officialWritingPrompt": {
+    "defaultMessage": "请帮我把这些材料整理成一篇正式的工作报告。"
+  },
+  "hub.webResearch": {
+    "defaultMessage": "网络搜索"
+  },
+  "hub.webResearchPrompt": {
+    "defaultMessage": "请研究这个主题，并附上可靠来源。"
   },
   "huggingFaceModelSearch.download": {
     "defaultMessage": "下载"
@@ -2680,6 +2722,12 @@
   },
   "promptsSettings.unsavedChanges": {
     "defaultMessage": "你有未保存的更改"
+  },
+  "providerCard.external": {
+    "defaultMessage": "外部服务"
+  },
+  "providerCard.local": {
+    "defaultMessage": "本地模型"
   },
   "providerCard.noMetadata": {
     "defaultMessage": "ProviderCard 错误：未提供元数据"

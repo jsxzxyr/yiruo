@@ -26,7 +26,7 @@ const i18n = defineMessages({
   },
   toggleDescription: {
     id: 'telemetrySettings.toggleDescription',
-    defaultMessage: 'Help improve goose by sharing anonymous usage statistics.',
+    defaultMessage: 'Help improve Yiruo by sharing anonymous usage statistics.',
   },
   learnMore: {
     id: 'telemetrySettings.learnMore',
@@ -51,14 +51,14 @@ const TELEMETRY_CONFIG_KEY = 'GOOSE_TELEMETRY_ENABLED';
 export default function TelemetrySettings() {
   const intl = useIntl();
   const { read, upsert } = useConfig();
-  const [telemetryEnabled, setTelemetryEnabled] = useState(true);
+  const [telemetryEnabled, setTelemetryEnabled] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
   const loadTelemetryStatus = useCallback(async () => {
     try {
       const value = await read(TELEMETRY_CONFIG_KEY, false);
-      setTelemetryEnabled(value === null ? true : Boolean(value));
+      setTelemetryEnabled(value === null ? false : Boolean(value));
     } catch (error) {
       console.error('Failed to load telemetry status:', error);
       toastService.error({

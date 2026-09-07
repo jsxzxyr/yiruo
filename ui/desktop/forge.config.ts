@@ -36,9 +36,9 @@ let cfg = {
     ],
     // Usage descriptions for macOS TCC (Transparency, Consent, and Control)
     NSMicrophoneUsageDescription:
-      'Goose needs access to your microphone for voice dictation.',
+      'Yiruo needs access to your microphone for voice dictation.',
     NSAppleEventsUsageDescription:
-      'Goose needs access to send Apple Events to control other apps on your behalf.',
+      'Yiruo needs access to send Apple Events to control other apps on your behalf.',
   },
 };
 
@@ -87,7 +87,7 @@ module.exports = {
     {
       name: '@electron-forge/maker-deb',
       config: {
-        name: 'Goose',
+        name: 'yiruo',
         bin: 'Goose',
         maintainer: 'AAIF (Agentic AI Foundation)',
         homepage: 'https://goose-docs.ai/',
@@ -103,7 +103,7 @@ module.exports = {
     {
       name: '@electron-forge/maker-rpm',
       config: {
-        name: 'Goose',
+        name: 'yiruo',
         bin: 'Goose',
         maintainer: 'AAIF (Agentic AI Foundation)',
         homepage: 'https://goose-docs.ai/',

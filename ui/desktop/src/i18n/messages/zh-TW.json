@@ -1376,6 +1376,30 @@
   "headersSection.value": {
     "defaultMessage": "值"
   },
+  "hub.brandDescription": {
+    "defaultMessage": "一個用於文件、寫作、研究和日常工作的從容工作台。"
+  },
+  "hub.chooseTask": {
+    "defaultMessage": "從任務開始"
+  },
+  "hub.compareFiles": {
+    "defaultMessage": "比較文件"
+  },
+  "hub.compareFilesPrompt": {
+    "defaultMessage": "請比較這些文件，並突顯重要差異。"
+  },
+  "hub.dataAnalysis": {
+    "defaultMessage": "資料分析"
+  },
+  "hub.dataAnalysisPrompt": {
+    "defaultMessage": "請分析這些資料並總結關鍵發現。"
+  },
+  "hub.documentProcessing": {
+    "defaultMessage": "文件處理"
+  },
+  "hub.documentProcessingPrompt": {
+    "defaultMessage": "請幫我分析並整理這份文件。"
+  },
   "hub.goodAfternoon": {
     "defaultMessage": "午安"
   },
@@ -1384,6 +1408,24 @@
   },
   "hub.goodMorning": {
     "defaultMessage": "早安"
+  },
+  "hub.knowledgeBase": {
+    "defaultMessage": "我的知識庫"
+  },
+  "hub.knowledgeBasePrompt": {
+    "defaultMessage": "請在我的本地資料中尋找最相關的資訊。"
+  },
+  "hub.officialWriting": {
+    "defaultMessage": "公文寫作"
+  },
+  "hub.officialWritingPrompt": {
+    "defaultMessage": "請幫我把這些資料整理成一篇正式的工作報告。"
+  },
+  "hub.webResearch": {
+    "defaultMessage": "網路搜尋"
+  },
+  "hub.webResearchPrompt": {
+    "defaultMessage": "請研究這個主題，並附上可靠來源。"
   },
   "huggingFaceModelSearch.download": {
     "defaultMessage": "下載"
@@ -2680,6 +2722,12 @@
   },
   "promptsSettings.unsavedChanges": {
     "defaultMessage": "您有未儲存的變更"
+  },
+  "providerCard.external": {
+    "defaultMessage": "外部服務"
+  },
+  "providerCard.local": {
+    "defaultMessage": "本地模型"
   },
   "providerCard.noMetadata": {
     "defaultMessage": "ProviderCard 錯誤：未提供中繼資料"

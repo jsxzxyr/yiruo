@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button } from '../ui/button';
 import PrivacyInfoModal from './PrivacyInfoModal';
 import { defineMessages, useIntl } from '../../i18n';
+import { YIRUO_BRAND } from '../../brand';
 
 const LOCAL_PROVIDER = 'local';
 
@@ -16,7 +17,7 @@ const i18n = defineMessages({
   },
   allSet: {
     id: 'onboardingSuccess.allSet',
-    defaultMessage: "You're all set to start using goose.",
+    defaultMessage: "You're all set to start using Yiruo.",
   },
   privacyTitle: {
     id: 'onboardingSuccess.privacyTitle',
@@ -24,7 +25,8 @@ const i18n = defineMessages({
   },
   privacyDescription: {
     id: 'onboardingSuccess.privacyDescription',
-    defaultMessage: 'Anonymous usage data helps improve goose. We never collect your conversations, code, or personal data.',
+    defaultMessage:
+      'Anonymous usage data helps improve Yiruo. We never collect your conversations, code, or personal data.',
   },
   learnMore: {
     id: 'onboardingSuccess.learnMore',
@@ -48,7 +50,7 @@ interface OnboardingSuccessProps {
 export default function OnboardingSuccess({ providerName, onFinish }: OnboardingSuccessProps) {
   const intl = useIntl();
   const [showPrivacyInfo, setShowPrivacyInfo] = useState(false);
-  const [telemetryOptIn, setTelemetryOptIn] = useState(true);
+  const [telemetryOptIn, setTelemetryOptIn] = useState(false);
 
   return (
     <div className="h-screen w-full bg-background-default overflow-hidden">
@@ -71,6 +73,7 @@ export default function OnboardingSuccess({ providerName, onFinish }: Onboarding
                   />
                 </svg>
               </div>
+              <div className="text-2xl font-medium text-text-default mb-3">{YIRUO_BRAND.name}</div>
               <h2 className="text-xl font-light text-text-default mb-1">
                 {providerName === LOCAL_PROVIDER
                   ? intl.formatMessage(i18n.localModelReady)
@@ -80,7 +83,9 @@ export default function OnboardingSuccess({ providerName, onFinish }: Onboarding
             </div>
 
             <div className="w-full p-4 bg-transparent border rounded-xl text-left mb-6">
-              <h3 className="font-medium text-text-default text-sm mb-1">{intl.formatMessage(i18n.privacyTitle)}</h3>
+              <h3 className="font-medium text-text-default text-sm mb-1">
+                {intl.formatMessage(i18n.privacyTitle)}
+              </h3>
               <p className="text-text-muted text-sm">
                 {intl.formatMessage(i18n.privacyDescription)}{' '}
                 <button
@@ -97,7 +102,9 @@ export default function OnboardingSuccess({ providerName, onFinish }: Onboarding
                   onChange={(e) => setTelemetryOptIn(e.target.checked)}
                   className="rounded"
                 />
-                <span className="text-text-muted text-sm">{intl.formatMessage(i18n.shareUsageData)}</span>
+                <span className="text-text-muted text-sm">
+                  {intl.formatMessage(i18n.shareUsageData)}
+                </span>
               </label>
             </div>
 

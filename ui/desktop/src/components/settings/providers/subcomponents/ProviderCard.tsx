@@ -5,6 +5,7 @@ import CardBody from './CardBody';
 import DefaultCardButtons from './buttons/DefaultCardButtons';
 import type { ProviderDetails, ProviderMetadata } from '../../../../types/providers';
 import { defineMessages, useIntl } from '../../../../i18n';
+import { getProviderRegistration } from '../../../../providers/providerRegistry';
 
 const i18n = defineMessages({
   noMetadata: {
@@ -18,6 +19,14 @@ const i18n = defineMessages({
   deprecatedReplacement: {
     id: 'providerCard.deprecatedReplacement',
     defaultMessage: 'Deprecated — use {replacement} instead.',
+  },
+  local: {
+    id: 'providerCard.local',
+    defaultMessage: 'Local',
+  },
+  external: {
+    id: 'providerCard.external',
+    defaultMessage: 'External',
   },
 });
 
@@ -55,6 +64,7 @@ export const ProviderCard = function ProviderCard({
         replacement: provider.replacement ?? intl.formatMessage(i18n.unknownProvider),
       })}`
     : metadata.description;
+  const registration = getProviderRegistration(provider);
 
   return (
     <CardContainer
@@ -62,11 +72,18 @@ export const ProviderCard = function ProviderCard({
       grayedOut={!provider.is_configured && isOnboarding} // onboarding page will have grayed out cards if not configured
       onClick={handleCardClick}
       header={
-        <CardHeader
-          name={metadata.display_name || provider?.name || intl.formatMessage(i18n.unknownProvider)}
-          description={description}
-          isConfigured={provider?.is_configured || false}
-        />
+        <>
+          <CardHeader
+            name={
+              metadata.display_name || provider?.name || intl.formatMessage(i18n.unknownProvider)
+            }
+            description={description}
+            isConfigured={provider?.is_configured || false}
+          />
+          <span className="mt-2 inline-flex w-fit rounded-md bg-background-secondary px-1.5 py-0.5 text-[10px] text-text-secondary">
+            {intl.formatMessage(registration.dataBoundary === 'local' ? i18n.local : i18n.external)}
+          </span>
+        </>
       }
       body={
         <CardBody>

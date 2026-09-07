@@ -12,11 +12,11 @@ const i18n = defineMessages({
   // Shortcut labels
   focusWindowLabel: {
     id: 'keyboardShortcuts.focusWindowLabel',
-    defaultMessage: 'Focus Goose Window',
+    defaultMessage: 'Focus Yiruo Window',
   },
   focusWindowDescription: {
     id: 'keyboardShortcuts.focusWindowDescription',
-    defaultMessage: 'Bring Goose window to front from anywhere',
+    defaultMessage: 'Bring Yiruo window to front from anywhere',
   },
   quickLauncherLabel: {
     id: 'keyboardShortcuts.quickLauncherLabel',
@@ -32,7 +32,7 @@ const i18n = defineMessages({
   },
   newChatDescription: {
     id: 'keyboardShortcuts.newChatDescription',
-    defaultMessage: 'Create a new chat in the current window',
+    defaultMessage: 'Create a new task in the current window',
   },
   newChatWindowLabel: {
     id: 'keyboardShortcuts.newChatWindowLabel',
@@ -40,7 +40,7 @@ const i18n = defineMessages({
   },
   newChatWindowDescription: {
     id: 'keyboardShortcuts.newChatWindowDescription',
-    defaultMessage: 'Open a new Goose window',
+    defaultMessage: 'Open a new Yiruo window',
   },
   openDirectoryLabel: {
     id: 'keyboardShortcuts.openDirectoryLabel',
@@ -106,7 +106,7 @@ const i18n = defineMessages({
   },
   categoryGlobalDescription: {
     id: 'keyboardShortcuts.categoryGlobalDescription',
-    defaultMessage: 'These shortcuts work system-wide, even when Goose is not focused',
+    defaultMessage: 'These shortcuts work system-wide, even when Yiruo is not focused',
   },
   categoryApplication: {
     id: 'keyboardShortcuts.categoryApplication',
@@ -114,7 +114,7 @@ const i18n = defineMessages({
   },
   categoryApplicationDescription: {
     id: 'keyboardShortcuts.categoryApplicationDescription',
-    defaultMessage: 'These shortcuts work when Goose is the active application',
+    defaultMessage: 'These shortcuts work when Yiruo is the active application',
   },
   categorySearch: {
     id: 'keyboardShortcuts.categorySearch',
@@ -179,8 +179,7 @@ const i18n = defineMessages({
   },
   shortcutConflictToggleMessage: {
     id: 'keyboardShortcuts.shortcutConflictToggleMessage',
-    defaultMessage:
-      'The shortcut {shortcut} is already assigned to "{conflictLabel}".',
+    defaultMessage: 'The shortcut {shortcut} is already assigned to "{conflictLabel}".',
   },
   shortcutConflictToggleDetail: {
     id: 'keyboardShortcuts.shortcutConflictToggleDetail',
@@ -371,10 +370,7 @@ export default function KeyboardShortcutsSection() {
             conflictLabel: getShortcutLabel(conflictingKey, intl.formatMessage),
             targetLabel: getShortcutLabel(key, intl.formatMessage),
           }),
-          buttons: [
-            intl.formatMessage(i18n.reassignShortcut),
-            intl.formatMessage(i18n.cancel),
-          ],
+          buttons: [intl.formatMessage(i18n.reassignShortcut), intl.formatMessage(i18n.cancel)],
           defaultId: 1,
         });
 
@@ -421,10 +417,7 @@ export default function KeyboardShortcutsSection() {
           conflictLabel: getShortcutLabel(conflictingKey, intl.formatMessage),
           targetLabel: getShortcutLabel(editingKey, intl.formatMessage),
         }),
-        buttons: [
-          intl.formatMessage(i18n.reassignShortcut),
-          intl.formatMessage(i18n.cancel),
-        ],
+        buttons: [intl.formatMessage(i18n.reassignShortcut), intl.formatMessage(i18n.cancel)],
         defaultId: 1,
       });
 
@@ -459,10 +452,7 @@ export default function KeyboardShortcutsSection() {
       title: intl.formatMessage(i18n.resetShortcutsTitle),
       message: intl.formatMessage(i18n.resetShortcutsMessage),
       detail: intl.formatMessage(i18n.resetShortcutsDetail),
-      buttons: [
-        intl.formatMessage(i18n.resetToDefaultsHeading),
-        intl.formatMessage(i18n.cancel),
-      ],
+      buttons: [intl.formatMessage(i18n.resetToDefaultsHeading), intl.formatMessage(i18n.cancel)],
       defaultId: 1,
     });
 

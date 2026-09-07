@@ -28,12 +28,64 @@ import {
 import { formatAcpError } from '../acp/errors';
 import { toastError } from '../toasts';
 import { formatClockDisplay } from '../utils/timeUtils';
+import { FileText, Files, PenLine, Search, Sparkles, Table2, type LucideIcon } from 'lucide-react';
+import { YIRUO_BRAND } from '../brand';
 
 const i18n = defineMessages({
   goodMorning: { id: 'hub.goodMorning', defaultMessage: 'Good morning' },
   goodAfternoon: { id: 'hub.goodAfternoon', defaultMessage: 'Good afternoon' },
   goodEvening: { id: 'hub.goodEvening', defaultMessage: 'Good evening' },
+  brandDescription: {
+    id: 'hub.brandDescription',
+    defaultMessage: 'A calm workspace for documents, writing, research, and daily work.',
+  },
+  chooseTask: { id: 'hub.chooseTask', defaultMessage: 'Start with a task' },
+  documentProcessing: { id: 'hub.documentProcessing', defaultMessage: 'Document processing' },
+  documentProcessingPrompt: {
+    id: 'hub.documentProcessingPrompt',
+    defaultMessage: 'Please help me analyze and organize this document.',
+  },
+  officialWriting: { id: 'hub.officialWriting', defaultMessage: 'Official writing' },
+  officialWritingPrompt: {
+    id: 'hub.officialWritingPrompt',
+    defaultMessage: 'Please help me turn these materials into a formal work report.',
+  },
+  webResearch: { id: 'hub.webResearch', defaultMessage: 'Web research' },
+  webResearchPrompt: {
+    id: 'hub.webResearchPrompt',
+    defaultMessage: 'Please research this topic and include reliable sources.',
+  },
+  compareFiles: { id: 'hub.compareFiles', defaultMessage: 'Compare files' },
+  compareFilesPrompt: {
+    id: 'hub.compareFilesPrompt',
+    defaultMessage: 'Please compare these files and highlight the important differences.',
+  },
+  dataAnalysis: { id: 'hub.dataAnalysis', defaultMessage: 'Data analysis' },
+  dataAnalysisPrompt: {
+    id: 'hub.dataAnalysisPrompt',
+    defaultMessage: 'Please analyze this data and summarize the key findings.',
+  },
+  knowledgeBase: { id: 'hub.knowledgeBase', defaultMessage: 'My knowledge base' },
+  knowledgeBasePrompt: {
+    id: 'hub.knowledgeBasePrompt',
+    defaultMessage: 'Please find the most relevant information in my local materials.',
+  },
 });
+
+type StarterTask = {
+  icon: LucideIcon;
+  label: keyof typeof i18n;
+  prompt: keyof typeof i18n;
+};
+
+const STARTER_TASKS: StarterTask[] = [
+  { icon: FileText, label: 'documentProcessing', prompt: 'documentProcessingPrompt' },
+  { icon: PenLine, label: 'officialWriting', prompt: 'officialWritingPrompt' },
+  { icon: Search, label: 'webResearch', prompt: 'webResearchPrompt' },
+  { icon: Files, label: 'compareFiles', prompt: 'compareFilesPrompt' },
+  { icon: Table2, label: 'dataAnalysis', prompt: 'dataAnalysisPrompt' },
+  { icon: Sparkles, label: 'knowledgeBase', prompt: 'knowledgeBasePrompt' },
+];
 
 function useClock() {
   const [now, setNow] = useState(() => new Date());
@@ -60,6 +112,7 @@ export default function Hub({
   const [isCreatingSession, setIsCreatingSession] = useState(false);
   const [nextChatExtensionDraft, setNextChatExtensionDraft] =
     useState<NextChatExtensionDraft | null>(null);
+  const [starterPrompt, setStarterPrompt] = useState('');
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const { time, meridiem, hour } = useClock();
 
@@ -102,6 +155,14 @@ export default function Hub({
     userSelectedWorkingDirRef.current = true;
     setWorkingDir(dir);
   }, []);
+
+  const handleStarterTask = useCallback(
+    (prompt: keyof typeof i18n) => {
+      setStarterPrompt(intl.formatMessage(i18n[prompt]));
+      requestAnimationFrame(() => inputRef.current?.focus());
+    },
+    [intl]
+  );
 
   const handleSubmit = async (input: UserInput) => {
     const { msg: userMessage, images } = input;
@@ -152,8 +213,25 @@ export default function Hub({
   };
 
   return (
-    <div className="flex flex-col h-full min-h-0 items-center justify-center px-6 relative">
-      <div className="w-full max-w-2xl">
+    <div className="flex flex-col h-full min-h-0 items-center justify-center px-6 py-10 relative overflow-y-auto">
+      <div className="w-full max-w-3xl">
+        <div className="mb-10">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="flex size-10 items-center justify-center rounded-xl bg-background-inverse text-text-inverse">
+              <Sparkles className="size-5" aria-hidden="true" />
+            </div>
+            <div>
+              <div className="text-2xl font-medium tracking-tight text-text-primary">
+                {YIRUO_BRAND.name}
+              </div>
+              <div className="text-xs text-text-secondary">{YIRUO_BRAND.slogan}</div>
+            </div>
+          </div>
+          <p className="max-w-xl text-sm text-text-secondary">
+            {intl.formatMessage(i18n.brandDescription)}
+          </p>
+        </div>
+
         <div className="flex items-baseline gap-2 mb-1">
           <span className="text-6xl font-light text-text-primary tracking-tight tabular-nums">
             {time}
@@ -164,6 +242,23 @@ export default function Hub({
         </div>
         <p className="text-xl text-text-secondary mb-6">{greeting}</p>
 
+        <div className="mb-3 text-sm font-medium text-text-primary">
+          {intl.formatMessage(i18n.chooseTask)}
+        </div>
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 mb-6">
+          {STARTER_TASKS.map(({ icon: Icon, label, prompt }) => (
+            <button
+              key={label}
+              type="button"
+              onClick={() => handleStarterTask(prompt)}
+              className="flex min-h-20 items-center gap-3 rounded-lg border border-border-primary bg-background-primary px-3 text-left text-sm text-text-primary transition-colors hover:bg-background-secondary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            >
+              <Icon className="size-5 shrink-0 text-text-secondary" aria-hidden="true" />
+              <span>{intl.formatMessage(i18n[label])}</span>
+            </button>
+          ))}
+        </div>
+
         <ChatInputCard>
           <ChatInput
             sessionId={null}
@@ -171,7 +266,7 @@ export default function Hub({
             handleSubmit={handleSubmit}
             chatState={isCreatingSession ? ChatState.LoadingConversation : ChatState.Idle}
             onStop={() => {}}
-            initialValue=""
+            initialValue={starterPrompt}
             setView={setView}
             totalTokens={0}
             accumulatedInputTokens={0}

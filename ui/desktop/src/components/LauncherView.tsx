@@ -1,11 +1,12 @@
 import { useRef, useState } from 'react';
 import { defineMessages, useIntl } from '../i18n';
 import { getInitialWorkingDir } from '../utils/workingDir';
+import { YIRUO_BRAND } from '../brand';
 
 const messages = defineMessages({
   placeholder: {
     id: 'launcher.placeholder',
-    defaultMessage: 'Ask goose anything...',
+    defaultMessage: 'What would you like to work on?',
   },
 });
 
@@ -34,7 +35,10 @@ export default function LauncherView() {
   };
 
   return (
-    <div className="h-screen w-screen flex bg-transparent overflow-hidden">
+    <div
+      className="h-screen w-screen flex bg-transparent overflow-hidden"
+      aria-label={YIRUO_BRAND.name}
+    >
       <form
         onSubmit={handleSubmit}
         className="w-full h-full bg-background-primary/95 backdrop-blur-lg shadow-2xl border border-border-primary"
