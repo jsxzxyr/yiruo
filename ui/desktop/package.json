@@ -1,7 +1,7 @@
 {
   "name": "goose-app",
   "productName": "Yiruo 壹若",
-  "version": "1.49.0",
+  "version": "1.49.1",
   "description": "Yiruo 壹若 desktop workspace",
   "engines": {
     "node": "^24.10.0",

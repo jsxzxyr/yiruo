@@ -1,6 +1,5 @@
 const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
-const { resolve } = require('path');
 
 const isLinuxVulkanBuild = process.env.GOOSE_DESKTOP_LINUX_VARIANT === 'vulkan';
 
@@ -79,8 +78,8 @@ module.exports = {
       platforms: ['win32'],
       config: {
         name: 'yiruo',
+        authors: 'Yiruo 壹若',
         setupExe: 'Yiruo-Setup.exe',
-        setupIcon: resolve(__dirname, 'src/images/icon.ico'),
       },
     },
     {
